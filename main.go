@@ -5,16 +5,44 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func login(c echo.Context) error {
-	username := c.FormValue("username")
-	password := c.FormValue("password")
+type (
+	User struct {
+		Email    string `json:"username" validate:"required,email"`
+		Password string `json:"password" validate:"required"`
+	}
+
+	CustomValidator struct {
+		validator *validator.Validate
+	}
+)
+
+func (cv *CustomValidator) Validate(i interface{}) error {
+	if err := cv.validator.Struct(i); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func login(c echo.Context) (err error) {
+
+	u := new(User)
+	if err = c.Bind(u); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	if err = c.Validate(u); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	username := u.Email
+	password := u.Password
 
 	// Throws unauthorized error
-	if username != "shaileshpatel34@yahoo.com" || password != "1234" {
+	if username != "sampatel4u@gmail.com" || password != "1234" {
 		return echo.ErrUnauthorized
 	}
 
@@ -23,7 +51,7 @@ func login(c echo.Context) error {
 
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["name"] = "Jon Snow"
+	claims["name"] = "Sam Patel"
 	claims["admin"] = true
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
@@ -51,6 +79,8 @@ func restricted(c echo.Context) error {
 
 func main() {
 	e := echo.New()
+
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	// Middleware
 	e.Use(middleware.Logger())
