@@ -6,11 +6,13 @@ import {
     LOGOUT,
   } from "../actions/types";
   
+  import jwt from 'jwt-decode' // import dependency
+
   const user = JSON.parse(localStorage.getItem("user"));
   
   const initialState = user
-    ? { isLoggedIn: true, user }
-    : { isLoggedIn: false, user: null };
+    ? { isLoggedIn: true, user, userinfo: jwt(user.token) }
+    : { isLoggedIn: false, user: null, userinfo: null };
   
   export default function (state = initialState, action) {
     const { type, payload } = action;

@@ -5,14 +5,21 @@ import {
     SET_MESSAGE,
 } from "./types"
 
+import jwt from 'jwt-decode' // import dependency
+
 import AuthService from "../services/auth.service"
 
 export const login = (username, password) => (dispatch) => {
     return AuthService.login(username, password).then(
       (data) => {
+
+        const user = jwt(data.token); // decode your token here
+
+        console.log(user);
+
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: { user: data },
+          payload: { user: data, userinfo: user },
         });
         return Promise.resolve();
       },

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -27,6 +28,7 @@ import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/Auth';
+import { getRestricted } from '../actions/Restricted'
 import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
@@ -239,13 +241,21 @@ function DashboardContent(props) {
         </Container>
       </Box>
       </BrowserRouter>
-
     </Box>
   );
 }
 
 export default function Dashboard(props) {
   const { isLoggedIn } = useSelector(state => state.auth);
+  const { welcomemsg } = useSelector(state => state.welcomemsg);
+
+  console.log(welcomemsg);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getRestricted()) 
+  },[]);
 
   if (!isLoggedIn) {
     return <Redirect to="/" />;
