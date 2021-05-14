@@ -23,9 +23,9 @@ import { mainListItems, secondaryListItems } from './Listitems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/Auth';
 import { useHistory } from "react-router-dom";
 
@@ -245,6 +245,12 @@ function DashboardContent(props) {
 }
 
 export default function Dashboard(props) {
+  const { isLoggedIn } = useSelector(state => state.auth);
+
+  if (!isLoggedIn) {
+    return <Redirect to="/" />;
+  }
+
   return (
     // TODO: Remove ThemeProvider once makeStyles is removed
     <ThemeProvider theme={defaultTheme}>
