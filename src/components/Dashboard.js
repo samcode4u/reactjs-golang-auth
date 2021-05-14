@@ -15,7 +15,6 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -24,6 +23,7 @@ import { mainListItems, secondaryListItems } from './Listitems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -138,6 +138,7 @@ function DashboardContent() {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <BrowserRouter>
       <Drawer
         variant="permanent"
         classes={{
@@ -170,22 +171,9 @@ function DashboardContent() {
       >
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: 240,
-                }}
-              >
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
+
+        <Switch>
+            <Route exact path="/Deposits" render={() => <Grid item xs={12} md={4} lg={3}>
               <Paper
                 sx={{
                   p: 2,
@@ -196,17 +184,30 @@ function DashboardContent() {
               >
                 <Deposits />
               </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
+            </Grid>} />
+            <Route path="/Chart" render={() =>  <Grid item xs={12} md={8} lg={9}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: 240,
+                }}
+              >
+                <Chart />
+              </Paper>
+            </Grid>} />
+            <Route path="/Orders" render={() => <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <Orders />
               </Paper>
-            </Grid>
-          </Grid>
+            </Grid>} />
+          </Switch>
           <Copyright sx={{ pt: 4 }} />
         </Container>
       </Box>
+      </BrowserRouter>
+
     </Box>
   );
 }
