@@ -24,6 +24,10 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import { AccountCircle, ExitToApp } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { logout } from '../actions/Auth';
+import { useHistory } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -98,11 +102,19 @@ const useStyles = makeStyles((theme) => ({
 
 const defaultTheme = createTheme();
 
-function DashboardContent() {
+function DashboardContent(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
+  };
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/");
+    window.location.reload();
   };
 
   return (
@@ -136,6 +148,26 @@ function DashboardContent() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
+
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+            onClick={handleLogout}
+          >
+            <ExitToApp />
+          </IconButton>
+
         </Toolbar>
       </AppBar>
       <BrowserRouter>
@@ -212,11 +244,11 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   return (
     // TODO: Remove ThemeProvider once makeStyles is removed
     <ThemeProvider theme={defaultTheme}>
-      <DashboardContent />
+      <DashboardContent pp={props}/>
     </ThemeProvider>
   );
 }
