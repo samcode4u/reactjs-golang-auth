@@ -24,6 +24,7 @@ import { mainListItems, secondaryListItems } from './Listitems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import Contacts from './Contacts';
 import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
 import { AccountCircle, ExitToApp } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -234,6 +235,11 @@ function DashboardContent(props) {
             <Route path="/Orders" render={() => <Grid item xs={12}>
               <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                 <Orders />
+              </Paper>
+            </Grid>} />
+            <Route path="/Contacts" render={() => <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Contacts />
               </Paper>
             </Grid>} />
           </Switch>

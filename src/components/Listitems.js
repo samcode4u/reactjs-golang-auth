@@ -10,7 +10,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from "react-router-dom";
-import { CreditCardOutlined } from '@material-ui/icons';
+import { ContactsOutlined, CreditCardOutlined } from '@material-ui/icons';
 
 
 export const mainListItems = (
@@ -39,6 +39,16 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Deposits" />
     </ListItem>
+
+    <ListItem button component={Link} to="/Contacts">
+      <ListItemIcon>
+        <ContactsOutlined />
+      </ListItemIcon>
+      <ListItemText primary="Contacts" />
+    </ListItem>
+    
+
+
     <ListItem button>
       <ListItemIcon>
         <LayersIcon />
