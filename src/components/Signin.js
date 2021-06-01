@@ -44,7 +44,7 @@ export default function SignIn(props) {
 
     setOpen(true);
 
-    dispatch(login(username, password))
+    dispatch(login(data.get('email'), data.get('password')))
       .then(() => {
         props.history.push("/home");
         window.location.reload();
