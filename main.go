@@ -42,7 +42,7 @@ func login(c echo.Context) (err error) {
 	password := u.Password
 
 	// Throws unauthorized error
-	if username != "sampatel4u@gmail.com" || password != "1234" {
+	if username != "abc@efg.com" || password != "abc123" {
 		return echo.ErrUnauthorized
 	}
 
